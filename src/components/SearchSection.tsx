@@ -1,3 +1,57 @@
+                            className={`absolute bottom-4 left-4 opacity-20 ${
+                              isDarkMode ? "text-orange-400" : "text-orange-200"
+                            }`}
+                          >
+                            <BookOpen className="w-12 h-12 animate-bounce-slow" />
+                          </div>
+
+                          <div className="text-center relative z-10">
+                            <div className="flex justify-center items-center gap-3 mb-6">
+                              <AlertCircle
+                                className={`w-12 h-12 animate-pulse ${
+                                  isDarkMode
+                                    ? "text-red-400"
+                                    : "text-red-500"
+                                }`}
+                              />
+                            </div>
+
+                            <h3
+                              className={`text-3xl md:text-4xl font-bold mb-4 animate-fadeInScale ${
+                                isDarkMode ? "text-red-200" : "text-red-800"
+                              }`}
+                            >
+                              لم يتم العثور على النتيجة
+                            </h3>
+
+                            <div
+                              className={`backdrop-blur-sm rounded-2xl p-6 mb-6 border transition-colors duration-300 ${
+                                isDarkMode
+                                  ? "bg-gray-800/70 border-red-600/30"
+                                  : "bg-white/70 border-red-100"
+                              }`}
+                            >
+                              <p
+                                className={`text-lg md:text-xl leading-relaxed mb-4 ${
+                                  isDarkMode
+                                    ? "text-red-200"
+                                    : "text-red-700"
+                                }`}
+                              >
+                                لم يتم العثور على نتيجة لهذا الاسم
+                              </p>
+                              <p
+                                className={`font-semibold ${
+                                  isDarkMode
+                                    ? "text-red-300"
+                                    : "text-red-600"
+                                }`}
+                              >
+                                تأكد من كتابة الاسم بشكل صحيح أو تواصل مع إدارة المسابقة
+                              </p>
+                            </div>
+                          </div>
+                        </div>
 import React, { useState } from 'react';
 import { Search, User, AlertCircle, Clock, BookOpen } from 'lucide-react';
 import { Student, Result } from '../types';
@@ -44,122 +98,36 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ students, onResult
       setSearchError(error.message || 'حدث خطأ أثناء البحث');
       onResult(null);
     } finally {
-      setIsLoading(false);
+                ? 'bg-gradient-to-r from-blue-900/30 to-purple-900/30 border-blue-600/50' 
+                : 'bg-gradient-to-r from-blue-100 to-purple-100 border-blue-300'
     }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  return (
-    <section className={`py-16 transition-colors duration-300 ${
-      isDarkMode ? 'bg-gray-900' : 'bg-white'
-    }`}>
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12 animate-slideInDown">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <Search className="w-12 h-12 text-blue-600 animate-bounce-slow" />
-              <h2 className={`text-4xl md:text-5xl font-bold ${isDarkMode ? 'text-gray-100' : 'gradient-text-animated'}`}>
-                البحث عن النتائج
-              </h2>
-            </div>
-            <p className={`text-xl mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              ابحث عن نتيجتك باستخدام الاسم أو رقم الطالب
-            </p>
-          </div>
-
-          {/* Search Section */}
-          <div className={`p-8 rounded-3xl shadow-2xl transition-colors duration-300 ${
-            isDarkMode 
-              ? 'bg-gradient-to-r from-gray-700 to-gray-600 border-2 border-gray-600/50' 
-              : 'bg-gradient-to-r from-white to-blue-50 border-2 border-blue-200'
-          }`}>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <div className={`flex rounded-2xl overflow-hidden border-2 focus-within:border-blue-500 transition-all duration-300 shadow-lg ${
-                  isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-white'
-                }`}>
-                  <div className={`px-6 py-4 flex items-center ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
-                    <User className={`w-6 h-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
-                  </div>
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="ادخل الاسم الثنائي للطالب (مثال: أحمد محمد)..."
-                    className={`flex-1 px-6 py-4 text-right focus:outline-none text-lg transition-colors duration-300 ${
-                      isDarkMode 
-                        ? 'bg-gray-800 text-gray-100 placeholder-gray-400' 
-                        : 'bg-white text-gray-900 placeholder-gray-500'
-                    }`}
-                    dir="rtl"
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-              
-              <button
-                onClick={handleSearch}
-                disabled={isLoading}
-                className={`px-8 py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 font-bold text-lg transform hover:scale-105 shadow-xl ${
-                  isLoading
-                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 hover:shadow-2xl hover:shadow-blue-500/25'
-                }`}
-              >
-                {isLoading ? (
-                  <>
-                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    جاري البحث...
-                  </>
-                ) : (
-                  <>
-                    <Search className="w-6 h-6" />
-                    بحث عن النتيجة
-                  </>
-                )}
-              </button>
-            </div>
-            
-            {/* رسالة خطأ */}
-            {searchError && (
-              <div className={`mt-6 p-4 rounded-xl border-2 text-center animate-fadeIn ${
-                isDarkMode 
-                  ? 'bg-red-900/30 border-red-600/50 text-red-300' 
-                  : 'bg-red-100 border-red-300 text-red-700'
-              }`}>
-                <div className="flex items-center justify-center gap-2">
-                  <AlertCircle className="w-5 h-5" />
-                  <span className="font-semibold">{searchError}</span>
-                </div>
-              </div>
-            )}
-            
-            {/* رسالة توضيحية */}
-            <div className={`mt-6 p-6 rounded-2xl border-2 text-center transition-colors duration-300 ${
-              isDarkMode 
-                ? 'bg-gradient-to-r from-green-900/30 to-blue-900/30 border-green-600/50' 
-                : 'bg-gradient-to-r from-green-100 to-blue-100 border-green-300'
-            }`}>
-              <div className="flex justify-center items-center gap-3 mb-4">
-                <BookOpen className={`w-8 h-8 ${isDarkMode ? 'text-green-400' : 'text-green-600'} animate-bounce-slow`} />
+                          className={`border-2 rounded-3xl p-8 shadow-2xl relative overflow-hidden transition-colors duration-300 ${
+                <BookOpen className={`w-8 h-8 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'} animate-bounce-slow`} />
+                            isDarkMode
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-green-200' : 'text-green-800'}`}>
-                  البحث عن النتائج متاح الآن
+                              ? "bg-gradient-to-br from-red-900/20 via-orange-900/20 to-red-900/20 border-red-600/50"
+                  النتائج متاحة الآن!
+                              : "bg-gradient-to-br from-red-50 via-orange-50 to-red-50 border-red-200"
                 </h3>
+                          }`}
               </div>
+                        >
               <p className={`text-lg ${isDarkMode ? 'text-green-300' : 'text-green-700'}`}>
-                اكتب الاسم الثنائي للطالب للبحث عن نتيجته في المسابقة
+                          {/* Background decorative elements */}
+                يمكنك الآن البحث عن نتيجتك في مسابقة المولد النبوي الشريف
+                          <div
               </p>
+                            className={`absolute top-4 right-4 opacity-30 ${
             </div>
+                              isDarkMode ? "text-red-400" : "text-red-200"
           </div>
+                            }`}
         </div>
+                          >
       </div>
+                            <AlertCircle className="w-16 h-16 animate-pulse" />
     </section>
+                          </div>
   );
+                          <div
 };

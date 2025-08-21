@@ -209,7 +209,7 @@ export const AllResultsSection: React.FC<AllResultsSectionProps> = ({ students, 
                               {result.name}
                             </td>
                             <td className={`px-6 py-4 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                              {result.id}
+                              {result.no || result.id}
                             </td>
                             <td className="px-6 py-4 text-center">
                               <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(result.category)}`}>

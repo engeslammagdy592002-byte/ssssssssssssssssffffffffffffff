@@ -204,7 +204,7 @@ export const searchResults = async (searchTerm: string): Promise<Result[]> => {
     }
 
     const { data, error } = await supabase
-      .from('results')
+      .from('reciterResults')
       .select('*')
       .ilike('name', `%${searchTerm}%`)
       .order('grade', { ascending: false });
@@ -214,6 +214,7 @@ export const searchResults = async (searchTerm: string): Promise<Result[]> => {
     // إضافة الترتيب للنتائج
     const rankedResults = (data || []).map((result, index) => ({
       ...result,
+      id: result.no, // استخدام العمود no كـ id
       rank: index + 1
     }));
     
@@ -228,7 +229,7 @@ export const searchResults = async (searchTerm: string): Promise<Result[]> => {
 export const getAllResults = async (): Promise<Result[]> => {
   try {
     const { data, error } = await supabase
-      .from('results')
+      .from('reciterResults')
       .select('*')
       .order('grade', { ascending: false });
 
@@ -237,6 +238,7 @@ export const getAllResults = async (): Promise<Result[]> => {
     // إضافة الترتيب للنتائج
     const rankedResults = (data || []).map((result, index) => ({
       ...result,
+      id: result.no, // استخدام العمود no كـ id
       rank: index + 1
     }));
     
@@ -256,7 +258,7 @@ export const getResultsStats = async (): Promise<{
 }> => {
   try {
     const { data, error } = await supabase
-      .from('results')
+      .from('reciterResults')
       .select('grade, category');
 
     if (error) throw error;
